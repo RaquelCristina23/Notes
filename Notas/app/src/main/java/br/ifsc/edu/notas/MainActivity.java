@@ -7,10 +7,17 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+
 
 public class MainActivity extends AppCompatActivity {
 
     SQLiteDatabase bd;
+    ListView notas;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         bd = openOrCreateDatabase("database",MODE_PRIVATE,null);
+        notas = findViewById(R.id.listNotas);
 
         bd.execSQL("CREATE TABLE IF NOT EXISTS notas (" +
                   "id integer primary key autoincrement," +
@@ -35,15 +43,25 @@ public class MainActivity extends AppCompatActivity {
         cursor.moveToFirst();
 
         String id, titulo, texto;
+        ArrayList<String> arrayList = new ArrayList<>();
 
         while (!cursor.isAfterLast()) {
-            id = cursor.getString(cursor.getColumnIndex("id"));
+//            id = cursor.getString(cursor.getColumnIndex("id"));
             titulo = cursor.getString(cursor.getColumnIndex("titulo"));
-            texto = cursor.getString(cursor.getColumnIndex("texto"));
-            Log.d("notas", id + titulo + texto);
+//            texto = cursor.getString(cursor.getColumnIndex("texto"));
             cursor.moveToNext();
+            arrayList.add(titulo);
         }
 
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                getApplicationContext(),
+                android.R.layout.simple_list_item_1,
+                android.R.id.text1,
+                arrayList
+
+        );
+        notas.setAdapter(adapter);
 
     }
 }
