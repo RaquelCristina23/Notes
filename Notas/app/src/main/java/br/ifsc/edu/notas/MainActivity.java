@@ -7,8 +7,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -27,23 +30,26 @@ public class MainActivity extends AppCompatActivity {
         bd = openOrCreateDatabase("database",MODE_PRIVATE,null);
         notas = findViewById(R.id.listNotas);
 
+
+//CREATE TABLE
         bd.execSQL("CREATE TABLE IF NOT EXISTS notas (" +
                   "id integer primary key autoincrement," +
                   "titulo varchar not null," +
                   "texto varchar );");
 
-//        bd.execSQL("INSERT INTO notas (id, titulo, texto) VALUES (null, \"Primeira nota\", \"primeiro texto\");");
-
+//INSERT
         ContentValues contentValues = new ContentValues();
         contentValues.put("titulo","Segunda Nota");
         contentValues.put("texto","segundo texto");
         bd.insert("notas", null,contentValues);
 
+
+//SELECT
         Cursor  cursor = bd.rawQuery("SELECT * FROM notas", null,null);
         cursor.moveToFirst();
 
         String id, titulo, texto;
-        ArrayList<String> arrayList = new ArrayList<>();
+        final ArrayList<String> arrayList = new ArrayList<>();
 
         while (!cursor.isAfterLast()) {
 //            id = cursor.getString(cursor.getColumnIndex("id"));
@@ -53,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             arrayList.add(titulo);
         }
 
-
+//LIST
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 getApplicationContext(),
                 android.R.layout.simple_list_item_1,
@@ -61,7 +67,16 @@ public class MainActivity extends AppCompatActivity {
                 arrayList
 
         );
+
+//ON CLICK BEHAVIOR: "PRINT"
         notas.setAdapter(adapter);
+        notas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String s = arrayList.get(i);
+                Toast.makeText(getApplicationContext(),s,Toast.LENGTH_LONG).show();
+            }
+        });
 
     }
 }
