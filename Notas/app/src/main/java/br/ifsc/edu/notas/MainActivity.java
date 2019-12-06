@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
     SQLiteDatabase bd;
     ListView listnotas;
     Button novaNota;
+    String id, titulo, texto, s;
+
 
 
     @Override
@@ -33,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         novaNota = findViewById(R.id.btnNovaNota);
 
 
-//CREATE TABLE
+        //CREATE TABLE
         bd.execSQL("CREATE TABLE IF NOT EXISTS notas (" +
                 "id integer primary key autoincrement," +
                 "titulo varchar not null," +
@@ -44,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
         Cursor cursor = bd.rawQuery("SELECT * FROM notas", null, null);
         cursor.moveToFirst();
 
-        String id, titulo, texto;
         final ArrayList<String> arrayList = new ArrayList<>();
 
         while (!cursor.isAfterLast()) {
@@ -63,12 +64,12 @@ public class MainActivity extends AppCompatActivity {
 
         );
 
-//ON CLICK BEHAVIOR: "PRINT"
+        //ON CLICK BEHAVIOR: "PRINT"
         listnotas.setAdapter(adapter);
         listnotas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String s = arrayList.get(i);
+                s = arrayList.get(i);
                 Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
             }
         });
@@ -85,10 +86,9 @@ public class MainActivity extends AppCompatActivity {
         listnotas.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                String titulo = novaNota.getText().toString();
-                bd.delete(notas, titulo + " = " + titulo, null);
-                Toast.makeText(getApplicationContext(), "Nota removida", Toast.LENGTH_SHORT).show();
 
+                bd.delete(notas, titulo + " = " + s,  null);
+                Toast.makeText(getApplicationContext(), "Nota removida", Toast.LENGTH_SHORT).show();
 
                 return true;
             }
