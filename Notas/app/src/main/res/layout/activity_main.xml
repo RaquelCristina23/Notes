@@ -6,10 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <Button
+        android:id="@+id/btnNovaNota"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nova nota"
+        app:layout_constraintBottom_toBottomOf="@+id/listNotas"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <ListView
         android:id="@+id/listNotas"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="109dp"
-        tools:layout_editor_absoluteY="127dp" />
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-48dp">
+
+    </ListView>
 </androidx.constraintlayout.widget.ConstraintLayout>
