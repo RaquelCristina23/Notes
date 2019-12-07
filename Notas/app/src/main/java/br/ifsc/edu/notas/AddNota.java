@@ -49,6 +49,6 @@ public class AddNota extends AppCompatActivity {
         ContentValues contentValues = new ContentValues();
         contentValues.put("titulo", titulo);
         contentValues.put("texto", texto);
-        bd.insert("listnotas", null, contentValues);
+        bd.insert("notas", null, contentValues);
     }
 }
